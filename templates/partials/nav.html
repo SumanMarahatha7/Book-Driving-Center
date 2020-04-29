@@ -1,0 +1,60 @@
+<nav>
+ <div style="width: 100% ;" class="navigation_bar">
+  <div style="background-color: white;
+  color: black;
+  border: 2px solid green;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;" class="logo">
+      <a href="/">Book Driving Center</a>
+  </div>
+  <div class="nav-items">
+    <a href="{% url 'listings' %}">Driving Centers</a>
+    <a href="{% url 'aboutus' %}">About Us</a>
+
+      <ul class="register">
+        {% if user.is_authenticated %}
+          <li
+          {% if 'dashboard' in request.path %}
+            class = "reg-active"
+          {% else %}
+            class = "navigation_bar"
+          {% endif %}
+        >
+            <a href="{% url 'dashboard' %}">{{user.username}}(Dashboard)</a>
+        </li>
+
+        <li class="nav-item">
+          <a href="javascript:{document.getElementById('logout').submit()}" class="nav-item">
+            <i class="logging-out"></i> Logout
+          </a>
+          <form action="{% url 'logout' %}" method="POST" id="logout">
+            {% csrf_token %}
+            <input type="hidden">
+          </form>
+        </li>
+        {% else %}
+        <li
+          {% if 'register' in request.path %}
+            class = "reg-active"
+          {% else %}
+            class = "navigation_bar"
+          {% endif %}
+        >
+            <a href="{% url 'register' %}">Register</a>
+        </li>
+
+        <li
+          {% if 'login' in request.path %}
+            class = "log-active"
+          {% else %}
+            class = "navigation_bar"
+          {% endif %}
+        >
+          <a href="{% url 'login' %}">Login</a>
+        </li>
+        {% endif %}
+  </div>
+ </div>
+</nav>

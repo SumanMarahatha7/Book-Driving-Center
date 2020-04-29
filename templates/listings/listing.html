@@ -1,0 +1,185 @@
+ {% extends 'base.html' %}
+
+ {% block title %} | {{ listing.title }} {% endblock %}
+ {% block content %}
+
+  <section>
+        <div class="single-list">
+          <h1>{{ listing.title }}</h1>
+          <p class="lead">
+            <i class="single-list-address"></i>{{ listing.address }}</p>
+        </div>
+  </section>
+
+
+
+  <!-- Listing -->
+  <section id="listing">
+    <div class="container">
+        <div class="other-image">
+          <!-- Home Main Image -->
+          <img src="{{listing.main_image.url}}" width="500" length="500">
+          <!-- Thumbnails -->
+          <div class="small-images">
+            {% if listing.image1 %}
+            <div class="image1">
+              <a href="{{ listing.image1.url }}">
+                <img src="{{ listing.image1.url }}" alt="" width="15%">
+              </a>
+            </div>
+            {% endif %}
+            {% if listing.image2 %}
+            <div class="image2">
+              <a href="{{ listing.image2.url }}">
+                <img src="{{ listing.image2.url }}" alt="" width="15%">
+              </a>
+            </div>
+            {% endif %}
+            {% if listing.image3 %}
+            <div class="col-md-3">
+              <a href="{{ listing.image3.url }}">
+                <img src="{{ listing.image3.url }}" alt="" width="15%">
+              </a>
+            </div>
+            {% endif %}
+          </div>
+          <!-- Fields -->
+          <div class="details">
+            <div class="external-details">
+              <ul>
+                <li class="list-group-item text-secondary">
+                  <i class="price-bike"></i> Bike Price per hour: Rs
+                  <span class="float-right">{{ listing.price_of_bikes_per_hour }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="price-car"></i> Car Price per hour: Rs
+                  <span class="float-right">{{ listing.price_of_cars_per_hour }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="Number-of-bikes"></i> Total number of bikes:
+                  <span class="float-right">{{ listing.Numbers_of_bikes }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="Number-of-cars"></i> Total number of cars:
+                  <span class="float-right">{{ listing.Numbers_of_cars }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="area"></i> Area in acres:
+                  <span class="float-right">{{ listing.area_in_acres}}</span>
+                </li>
+                 <li class="list-group-item text-secondary">
+                  <i class="park"></i> Parking Availability:
+                  <span class="float-right">{{ listing.parking_available}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="contact-details">
+              <ul>
+                <li class="list-group-item text-secondary">
+                  <i class="contact"></i> Contact Number:
+                  <span class="float-right">{{ listing.contact_number }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="mail"></i> E-Mail:
+                  <span class="float-right">{{ listing.listing_email }}
+                  </span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="open-time"></i> Opening Time:
+                  <span class="close-time">{{ listing.opening_time }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="close-time"></i> Closing Time:
+                  <span class="float-right">{{ listing.closing_time }}</span>
+                </li>
+
+
+              </ul>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="description">
+            <div class="describe">
+              <h4> {{ listing.description }}</h4>
+            </div>
+          </div>
+        </div>
+          <!-- <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">BOOK NOW</button> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="Back"><a href="{% url 'listings' %}" class="btn btn-light mb-4">Back To Listings</a></div>
+
+
+
+
+
+  <div class="book modal" id="bookModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="bookModalLabel">Book this Driving Center</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>Book Now</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action= {% if user.is_authenticated %} "{% url 'contact' %}" method="POST">
+            {% else %}
+             "{% url 'login' %}"
+            {% endif %}
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+              <input type="hidden" name="user_id" value="{{ user.id }}">
+            {% else %}
+              <input type="hidden" name="user_id" value="0">
+            {% endif %}
+              <input type="hidden" name="listing_email" value="{{ listing.listing_email }}">
+              <input type="hidden" name="listing_id" value="{{ listing.id }}">
+            <div class="form-group">
+              <label for="drivingCenter_name" class="col-form-label">Driving Center:</label>
+              <input type="text" name="listing" class="form-control" value="{{ listing.title }}">
+            </div>
+            <div class="form-group">
+              <label for="name" class="col-form-label">Name:</label>
+              <input type="text" name="name" class="form-control" {% if user.is_authenticated %} value="{{ user.name }}" {% endif %} required>
+            </div>
+            <div class="form-group">
+              <label for="email" class="col-form-label">Email:</label>
+              <input type="email" name="email" class="form-control" {% if user.is_authenticated %} value="{{user.mail}}" {% endif%} required>
+            </div>
+              <div class="form-group">
+                <label for="datetime" class="col-form-label">Date & Time:</label>
+                <input type="datetime-local" id="time" name="time">
+            <div class="form-group">
+              <label for="phone" class="col-form-label">Phone:</label>
+              <input type="number" name="phone" class="form-control">
+            </div>
+            <!-- <div class="form-group">
+              <select name="vehicle" size="2" multiple>
+                <option value="bike">Bike</option>
+                <option value="car">Car</option>
+              </select>
+            </div> -->
+            <div class="form-group">
+              <label for="vehicle" class="col-form-label">Vehicle you needed:</label>
+              <input type="text" name="vehicle" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="message" class="col-form-label">Message:</label>
+              <textarea name="message" class="form-control"></textarea>
+            </div>
+            <hr>
+            <input type="submit" value="Send" class="btn btn-block btn-secondary">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
