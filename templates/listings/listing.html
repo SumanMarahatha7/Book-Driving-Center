@@ -134,7 +134,7 @@
             {% endif %}
             {% csrf_token %}
             {% if user.is_authenticated %}
-              <input type="hidden" name="user_id" value="{{ user.id }}">
+              <input type="hidden" name="user_id" value="{{ user.userid }}">
             {% else %}
               <input type="hidden" name="user_id" value="0">
             {% endif %}
@@ -146,11 +146,11 @@
             </div>
             <div class="form-group">
               <label for="name" class="col-form-label">Name:</label>
-              <input type="text" name="name" class="form-control" {% if user.is_authenticated %} value="{{ user.name }}" {% endif %} required>
+              <input type="text" name="name" class="form-control" {% if user.is_authenticated %} value="{{ user.username }}" {% endif %} required>
             </div>
             <div class="form-group">
               <label for="email" class="col-form-label">Email:</label>
-              <input type="email" name="email" class="form-control" {% if user.is_authenticated %} value="{{user.email}}" {% endif%} required>
+              <input type="email" name="email" class="form-control" {% if user.is_authenticated %} value="{{ user.email }}" {% endif%} required>
             </div>
               <div class="form-group">
                 <label for="datetime" class="col-form-label">Date & Time:</label>

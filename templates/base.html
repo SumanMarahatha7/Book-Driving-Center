@@ -1,11 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" type="text/css" href="/static/css/admin.css">
-<link rel="stylesheet" type="text/css" href="/static/css/styles.css">
-<title>Book Driving Center {% block title %}{% endblock %}</title>
-</head>
+    <head>
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/admin.css"> -->
+        <title>Book Driving Center {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+    </head>
 <body>
     {% include 'partials/nav.html' %}
 

@@ -126,7 +126,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
-STATIC_FILES_DIRS = [os.path.join(BASE_DIR,'DrivingCenter/static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'DrivingCenter/static')]
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
@@ -144,5 +144,14 @@ MESSAGE_TAGS = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'sumancr.marahatha@gmail.com'
-EMAIL_HOST_PASSWORD = '9843774961'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS=True
+
+
+# AUTHENTICATION_BACKENDS = {
+#     'django.contrib.auth.backends.ModelBackend',
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# }
+
+
+# SITE_ID=1
