@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Feedback
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 def feedback(request):
     if request.method == 'POST':
