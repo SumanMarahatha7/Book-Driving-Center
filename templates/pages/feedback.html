@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+ {% block title %} | {{ feedback }} {% endblock %}
+ {% block content %}
+
+<h1 style="color: teal; margin-left: 600px; ">Feedback</h1>
+<h2 style="color: teal; margin-left: 560px;">Your word means a lot</h3>
+<hr>
+<section>
+    <div class="feedbackform">
+      <div class="formff">
+        <form action = "{% url 'feedback' %}" method="POST">
+            {% csrf_token %}
+            <div class="ff">
+                <label for="name" class="col-form-label">Name:</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="ff">
+                <label for="name" class="col-form-label">Email:</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="ff">
+                <label for="message" class="col-form-label">Message:</label>
+                <textarea name="message" class="form-control" required></textarea>
+            </div>
+            <input type="submit" value="Send" class="send">
+        </form>
+
+      </div>
+
+
+    </div>
+</section>
+
+
+
+
+ {% endblock %}

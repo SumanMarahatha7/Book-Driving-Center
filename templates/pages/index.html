@@ -26,11 +26,24 @@
         </select>
 </section>
 
+
 <div class="search">
     <form action="{% url 'search' %}">
         <input type="text/numbers" name="search-box" placeholder="Enter any driving center name or address">
         <button>Search</button>
     </form>
+</div>
+
+<div class="feed">
+    <button style="  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-left: 1000px;
+  font-size: 16px;" onclick="window.location.href = '{% url 'feedback' %}';">Feedback</button>
 </div>
 
 {% include 'partials/_alerts.html' %}  <!-- alerts -->
