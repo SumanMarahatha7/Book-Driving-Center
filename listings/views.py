@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from listings.choices import price_bike_choices, price_car_choices
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Listing
+from django.contrib.postgres.search import SearchVector
 
 def index(request):
     listings = Listing.objects.order_by('id')
@@ -27,28 +28,26 @@ def listing(request, listing_id):
 
 
 def search(request):
-    queryset_list = Listing.objects.all()
-
+    # search=SearchVector('body_text', 'blog__tagline').filter(search='Cheese')
 
     context = {
-        'listings': Listing.objects.filter()
+        'listings': Listing.objects.filter(title__contains='tahachal'),
     }
-    if 'title' in request.GET:
-          title = request.GET['title']
-          if title:
-            listings = queryset_list.filter(description__icontains=title)
+    # if 'title' in request.GET:
+    #     title = request.GET['title']
+    #     if title:
+    #         listings = queryset_list.filter(description__icontains=title)
 
-    if 'address' in request.GET:
-          address = request.GET['address']
-          if address:
-            listings = Listing.objects.filter(address__contains=address)
-
-            context = {
-                #'price_bike_choices': price_bike_choices,
-                # 'price_car_choices': price_car_choices,
-                'listings': listings
-                }
-            return render(request, 'listings/search.html',context)
+    # if 'address' in request.GET:
+    #     address = request.GET['address']
+    #     if address:
+    #         listings = Listing.objects.filter(address__contains=address)
+    #         context = {
+    #             #'price_bike_choices': price_bike_choices,
+    #             # 'price_car_choices': price_car_choices,
+    #             'listings': listings
+    #             }
+    return render(request, 'listings/search.html',context)
 
 
     if 'price_bike_choices' in request.GET:

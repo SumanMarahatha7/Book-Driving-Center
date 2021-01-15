@@ -1,54 +1,46 @@
-<nav>
- <div style="width: 100% ;" class="navigation_bar">
-  <div class="logo">
-      <a href="/">Book Driving Center</a>
-  </div>
-  <div class="nav-items">
-    <a href="{% url 'listings' %}">Driving Centers</a>
-    <a href="{% url 'aboutus' %}">About Us</a>
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+  <a class="navbar-brand mb-0 h1" href="/">Book Driving Center</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-      <ul class="register">
-        {% if user.is_authenticated %}
-          <li
-          {% if 'dashboard' in request.path %}
-            class = "reg-active"
-          {% else %}
-            class = "navigation_bar"
-          {% endif %}
-        >
-            <a href="{% url 'dashboard' %}">{{user.username}}(Dashboard)</a>
-        </li>
-
-        <li class="nav-item">
-          <a href="javascript:{document.getElementById('logout').submit()}" class="nav-item">
-            <i class="logging-out"></i> Logout
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'listings' %}">Driving Centers</a>
+      </li>
+      <li class="nav-item active">
+        <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
+          <input class="form-control form-control-sm mr-sm-2" type="search" placeholder="Enter any driving center" aria-label="Search">
+          <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </li>
+    </ul>
+    <span class="nav-item">
+      <a class="nav-link text-danger" href="{% url 'aboutus' %}">About Us</a>
+    </span>
+    {% if user.is_authenticated %}
+      <span class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
+            {{user.username}}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
+          <a class="dropdown-item" href="#">
+            <form action="{% url 'logout' %}" method="POST" id="logout">
+              {% csrf_token %}
+              <input type="submit" value="logout" class="btn btn-danger"/>
+            </form>
           </a>
-          <form action="{% url 'logout' %}" method="POST" id="logout">
-            {% csrf_token %}
-            <input type="hidden">
-          </form>
-        </li>
-        {% else %}
-        <li
-          {% if 'register' in request.path %}
-            class = "reg-active"
-          {% else %}
-            class = "navigation_bar"
-          {% endif %}
-        >
-            <a href="{% url 'register' %}">Register</a>
-        </li>
-
-        <li
-          {% if 'login' in request.path %}
-            class = "log-active"
-          {% else %}
-            class = "navigation_bar"
-          {% endif %}
-        >
-          <a href="{% url 'login' %}">Login</a>
-        </li>
-        {% endif %}
+        </div>
+      </span>
+    {% else %}
+      <span class="nav-item">
+        <a class="nav-link text-danger" href="{% url 'login' %}">Log In</a>
+      </span>
+      <span class="nav-item">
+        <a class="nav-link text-danger" href="{% url 'register' %}">Sign Up</a>
+      </span>
+    {% endif %}
   </div>
- </div>
 </nav>

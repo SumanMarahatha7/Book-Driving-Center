@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'DrivingCenter.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'drivingcenterdb',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
     }
 }

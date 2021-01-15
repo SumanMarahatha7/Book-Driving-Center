@@ -1,74 +1,91 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} | Welcome {% endblock %}
 {% block content %}
-<h1> Booking Driving Center from home just got easy</h1>
 
+<div class="jumbotron" style="background-image: url({% static 'images/dean-huber-L8-4xHsNzMA-unsplash.jpg' %});background-size: 100%;">
+	<h1 class="display-4" style="color: white;text-shadow: 2px 2px 1px black;">Booking Driving Center from home just got easy</h1>
+	<p class="lead" style="color: white;text-shadow: 2px 2px 1px black;">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+	<hr class="my-4">
+	<p>Search Driving Centers Here.</p>
+	<div class="row">
+		<div class="col-8">
+			<form action="{% url 'search' %}">
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" placeholder="Enter any driving center name or address" aria-label="Recipient's username" aria-describedby="button-addon2">
+					<div class="input-group-append">
+						<button class="btn btn-outline-success" type="submit" id="button-addon2" style="background-color: red;color: white;">Search</button>
+					</div>
+				</div>
+			</form>
+			<div style="color: red;font-size: 0.7em;">Photo by <a href="https://unsplash.com/@deanhuberart?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Dean Huber</a> on <a href="https://unsplash.com/s/photos/car?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></div>
+		</div>
+	</div>
+	
+</div>
 <main>
-<section>
-    <div class="Price-choices">
-        <label class="price-bikes">Price of Bikes per hour</label>
-        <select name="price-bikes">
-            <option selected="true" disabled="disabled">All prices</option>
-            {% for key,value in price_bike_choices.items %}
-                <option value="{{ key }}">{{value}}</option>
-            {% endfor %}
-        </select>
+<!-- <section>
+		<div class="Price-choices">
+				<label class="price-bikes">Price of Bikes per hour</label>
+				<select name="price-bikes">
+						<option selected="true" disabled="disabled">All prices</option>
+						{% for key,value in price_bike_choices.items %}
+								<option value="{{ key }}">{{value}}</option>
+						{% endfor %}
+				</select>
 </section>
 
 <section>
-    <div class="Price-choices">
-        <label class="price-cars">Price of Cars per hour</label>
-        <select name="price-cars">
-            <option selected="true" disabled="disabled">All prices</option>
-            {% for key,value in price_car_choices.items %}
-                <option value="{{ key }}">{{value}}</option>
-            {% endfor %}
-        </select>
+		<div class="Price-choices">
+				<label class="price-cars">Price of Cars per hour</label>
+				<select name="price-cars">
+						<option selected="true" disabled="disabled">All prices</option>
+						{% for key,value in price_car_choices.items %}
+								<option value="{{ key }}">{{value}}</option>
+						{% endfor %}
+				</select>
 </section>
 
 
 <div class="search">
-    <form action="{% url 'search' %}">
-        <input type="text/numbers" name="search-box" placeholder="Enter any driving center name or address">
-        <button>Search</button>
-    </form>
+		<form action="{% url 'search' %}">
+				<input type="text/numbers" name="search-box" placeholder="Enter any driving center name or address">
+				<button>Search</button>
+		</form>
+</div> -->
+<div class="container">
+	{% include 'partials/_alerts.html' %}  <!-- alerts -->
+
+		<h1> Featured Driving Centers </h1>
+		<section id = "Listings">
+				<div class="container">
+					{% if listings %}
+						<div class="row">
+							{% for listing in listings %}
+								<div class="col-12 col-md-6 col-lg-4" style="margin-top: 1em;">
+									<div class="card">
+										<img class="card-img-top" alt="{{ listing.main_image.url }}" src="{% static '/images/Driving-institutes-in-Kathmandu.jpg' %}" style="width: 100%;height: 10em;"/>
+										<div class="card-body">
+											<div class="text-truncate" style="height: 10em;">
+												<span>{{ listing.address }}</span>
+												<h4><b>{{ listing.title }}</b></h4>
+												<h5>Bike:<b class="text-danger"> Rs300/hr</b></h5>
+												<h5>Car:<b class="text-danger"> Rs700/hr</b></h5>
+												<h5>Scooter:<b class="text-muted"> Not Available</b></h5>
+											</div>
+											<hr/>
+											<a href="{% url 'listing' listing.id %}" class="btn btn-sm btn-outline-info">More Info</a>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					{% else %}
+							<p>No listings available</p>
+					{% endif %}
+
+				</div>
+		</section>
 </div>
-
-<div class="feed">
-    <button style="  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin-left: 1000px;
-  font-size: 16px;" onclick="window.location.href = '{% url 'feedback' %}';">Feedback</button>
-</div>
-
-{% include 'partials/_alerts.html' %}  <!-- alerts -->
-
-    <h1> Featured Driving Centers </h1>
-    <section id = "Listings">
-        <div class="container">
-            {% if listings %}
-             {% for listing in listings %}
-                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;" >
-                    <img class="listimage" src="{{ listing.main_image.url }}" alt="" style="width: 25%" >
-                    <div class="cardlist" style="padding: 2px 16px;">
-                         <h3> {{ listing.title }}</h3>
-                         <h4> {{ listing.address }}</h4>
-                         <button style="border: none; padding: 15px 32px; text-align: center; display: inline-block; font-size: 10px;"><a href="{% url 'listing' listing.id %}" class="button">More Info</a></button>
-                    </div>
-                </div>
-
-              {% endfor %}
-            {% else %}
-                <p>No listings available</p>
-            {% endif %}
-
-        </div>
-    </section>
-
 </main>
 {% endblock %}

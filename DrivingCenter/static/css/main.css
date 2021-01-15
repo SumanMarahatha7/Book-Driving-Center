@@ -1,1 +1,28 @@
+.feedback{
+	position: fixed;
+	z-index: 99;
+	top:80vh;
+	right: -13em;
+	background-color: red;
+	color: white;
+	padding: 1em;
+	width: 15em;
+	border-top-left-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+}
+
+.feedback:hover{
+	animation-name: pop;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes pop{
+	from{right: -13em;}
+	to{right: 0em;}
+}
+
+.feedback a{
+	color: white;
+}	
 

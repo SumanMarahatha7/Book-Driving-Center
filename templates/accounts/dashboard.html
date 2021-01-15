@@ -2,42 +2,66 @@
 {% block title %} | User Dashboard {% endblock %}
 
 {% block content %}
-<h1>Book Driving Center</h1>
 
 {% include 'partials/_alerts.html' %}
 
 <section id="dashboard-showcase">
     <div class="container">
-        <h2 class="display">Book Driving Center dashboard</h2>
+        <h2>Book Driving Center dashboard</h2>
         <p class="about">We enable you too book any driving center easily from your home</p>
-    </div>
-</section>
-
-<section id="dashboard" class="py-4">
-    <div class="container">
+    
         <div class="content">
             <h3> Welcome </h3>
             {% if contacts %}
                 <p> Here are the listings of Driving Centers that you have booked</p>
-                <table class="table">
+                <table class="table" border="2px">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Driving Center</th>
-                            <th scope="col">Date & Time</th>
+                            <th scope="col">Booked Time</th>
+                            <th scope="col">Time of Booking</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for contact in contacts%}
+                            {% now "Y-m-d" as todays_date %}
+                            {% if todays_date < contact.time|date:"Y-m-d" %}
+                                <tr>
+                                    <td>{{ contact.name }}</td>
+                                    <td>{{ contact.listing }}</td>
+                                    <td>{{ contact.time|date:"Y-m-d" }}</td>
+                                    <td>{{ contact.contact_date|date:"Y-m-d" }}</td>
+                                    <td>
+                                        <a class="button" href="{% url 'listing' contact.listing_id %}">View Listing</a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p> Here are the listings of Driving Centers that you have expired</p>
+                <table class="table" border="2px">
+                    <thead>
                         <tr>
-                            <td>{{ contact.name }}</td>
-                            <td>{{ contact.listing }}</td>
-                            <td>{{ contact.time }}</td>
-                            <td>
-                                <a class="button" href="{% url 'listing' contact.listing_id %}">View Listing</a>
-                            </td>
+                            <th scope="col">Name</th>
+                            <th scope="col">Driving Center</th>
+                            <th scope="col">Booked Time</th>
+                            <th scope="col">Time of Booking</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts%}
+                            {% now "Y-m-d" as todays_date %}
+                            {% if todays_date > contact.time|date:"Y-m-d" %}
+                                <tr>
+                                    <td>{{ contact.name }}</td>
+                                    <td>{{ contact.listing }}</td>
+                                    <td>{{ contact.time|date:"Y-m-d" }}</td>
+                                    <td>{{ contact.contact_date|date:"Y-m-d" }}</td>    
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>

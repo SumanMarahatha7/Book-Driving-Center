@@ -4,63 +4,74 @@
 
 
 {% block content %}
-<h1> Listings </h1>
-<section id = "Listings">
-    <div class="container">
-            {% if listings %}
-             {% for listing in listings %}
-                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;" >
-                    <img class="listimage" src="{{ listing.main_image.url }}" alt="" style="width: 25%" >
-                    <div class="cardlist" style="padding: 2px 16px;">
-                         <h3> {{ listing.title }}</h3>
-                         <h4> {{ listing.address }}</h4>
-                         <button style="border: none; padding: 15px 32px; text-align: center; display: inline-block; font-size: 10px;"><a href="{% url 'listing' listing.id %}" class="button">More Info</a></button>
-                    </div>
-                </div>
+	<div class="container">
+		{% include 'partials/_alerts.html' %}
+		<h1> Listings </h1>
+		<div class="container">
+			{% if listings %}
+				<div class="row">
+					{% for listing in listings %}
+						<div class="col-12 col-md-6 col-lg-4" style="margin-top: 1em;">
+							<div class="card">
+								<img class="card-img-top" src="{{ listing.main_image.url }}" alt="" style="width: 100%;height: 10em;"/>
+								<div class="card-body">
+									<div class="text-truncate" style="height: 10em;">
+										<span>{{ listing.address }}</span>
+										<h4><b>{{ listing.title }}</b></h4>
+										<h5>Bike:<b class="text-danger"> Rs300/hr</b></h5>
+										<h5>Car:<b class="text-danger"> Rs700/hr</b></h5>
+										<h5>Scooter:<b class="text-muted"> Not Available</b></h5>
+									</div>
+									<hr/>
+									<a href="{% url 'listing' listing.id %}" class="btn btn-sm btn-outline-info">More Info</a>
+								</div>
+							</div>
+						</div>
 
-              {% endfor %}
-            {% else %}
-                <p>No listings available</p>
-            {% endif %}
+					{% endfor %}
+				</div>
+			{% else %}
+				<p>No listings available</p>
+			{% endif %}
 
-    </div>
+		</div>
 
-    <div class = "paginator">
-        <div class = "pag-1">
-            {% if listings.has_other_pages %}
-             <ul class = "pagination">
-                {% if listings.has_previous  %}
-                    <li class="page-item">
-                        <a href="?page={{listings.previous_page_number}}" class="page-link">&laquo;</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link">&laquo;</a>
-                    </li>
-                {% endif %}
-                {% for i in listings.paginator.page_range %}
-                    {% if listings.number == i %}
-                        <li class="page-item active">
-                            <a class="page-link">{{i}}</a>
-                        </li>
-                    {% else %}
-                        <li class="page-item">
-                            <a href="?page={{i}}" class="page-link">{{i}}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-                {% if listings.has_next  %}
-                    <li class="page-item">
-                        <a href="?page={{listings.next_page_number}}" class="page-link">&raquo;</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link">&raquo;</a>
-                    </li>
-                {% endif %}
-             </ul>
-            {% endif %}
-        </div>
-    </div>
-</section>
+		<div class = "paginator">
+			<div class = "pag-1">
+				{% if listings.has_other_pages %}
+				 <ul class = "pagination">
+					{% if listings.has_previous  %}
+						<li class="page-item">
+							<a href="?page={{listings.previous_page_number}}" class="page-link">&laquo;</a>
+						</li>
+					{% else %}
+						<li class="page-item disabled">
+							<a class="page-link">&laquo;</a>
+						</li>
+					{% endif %}
+					{% for i in listings.paginator.page_range %}
+						{% if listings.number == i %}
+							<li class="page-item active">
+								<a class="page-link">{{i}}</a>
+							</li>
+						{% else %}
+							<li class="page-item">
+								<a href="?page={{i}}" class="page-link">{{i}}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+					{% if listings.has_next  %}
+						<li class="page-item">
+							<a href="?page={{listings.next_page_number}}" class="page-link">&raquo;</a>
+						</li>
+					{% else %}
+						<li class="page-item disabled">
+							<a class="page-link">&raquo;</a>
+						</li>
+					{% endif %}
+				 </ul>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 {% endblock %}
